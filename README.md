@@ -1,5 +1,5 @@
 # ateargo-test
-AteArgo alarms managment test
+AteArgo alarms management test
 
 Localized in Italian
 
