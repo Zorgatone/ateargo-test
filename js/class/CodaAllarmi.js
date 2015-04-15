@@ -30,23 +30,42 @@
     CodaAllarmi.prototype.spostaCodici = function spostaCodici() {
 
     };
-    CodaAllarmi.prototype.insertIndex = function insertIndex(alarm) {
-        //
+    CodaAllarmi.prototype.insertIndex = function insertIndex(x) {
+        var a, low, high, len, mid;
+
+        a = this.allarmi;
+        len = a.length;
+        low = 0;
+        mid = 0;
+        high = len - 1;
+
+        while (low <= high) {
+            mid = Math.floor((low + high) / 2);
+
+            if (x.toDate() >= a[mid].toDate()) {
+                return mid - 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        return mid;
     };
     CodaAllarmi.prototype.add = function add(args) {
-        var self;
+        var self, index;
         if (args instanceof Array) {
             self = this;
-            Array.prototype.forEach.call(args, function forEach(alarm) {
-                var index;
 
+            //@TODO: change for-each loop and call insertIndex 1 time only. Sort the args array first
+            Array.prototype.forEach.call(args, function forEach(alarm) {
                 if(alarm instanceof Allarme) {
                     index = self.insertIndex(alarm);
                     self.allarmi.insert(index, alarm);
                 }
             });
         } else if (args instanceof Allarme) {
-            this.allarmi.push(allarme);
+            index = this.insertIndex(alarm);
+            this.allarmi.insert(index, allarme);
         }
     };
 }).call(window.AteArgo);

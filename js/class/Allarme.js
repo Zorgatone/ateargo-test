@@ -43,4 +43,7 @@
     Allarme.prototype.descrizione = "";
     Allarme.prototype.dettagli = "";
     Allarme.prototype.operatore = "";
+    Allarme.prototype.toDate = function toString() {
+        return Utilities.strToDate(this.data + " " + this.ora);
+    }
 }).call(window.AteArgo);
