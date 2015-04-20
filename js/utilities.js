@@ -19,6 +19,11 @@
         ));
         return this;
     };
+    Array.prototype.remove = Array.prototype.remove || function(from, to) {
+        var rest = this.slice((to || from) + 1 || this.length);
+        this.length = from < 0 ? this.length + from : from;
+        return this.push.apply(this, rest);
+    };
 
     Utilities = (function new_namespace() {
         var Util = function Utilities() {
