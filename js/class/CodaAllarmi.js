@@ -7,7 +7,7 @@
 (function closure() {
     "use strict";
 
-    var AteArgo, Allarme, CodaAllarmi;
+    var AteArgo, Allarme, CodaAllarmi, codiceIndex, supercodiceIndex;
 
     AteArgo = this;
 
@@ -30,10 +30,10 @@
     CodaAllarmi.prototype.spostaCodici = function spostaCodici() {
 
     };
-    CodaAllarmi.prototype.insertIndex = function insertIndex(x) {
+    codiceIndex = function codiceIndex(codaAllarmi, x) {
         var a, low, high, len, mid;
 
-        a = this.allarmi;
+        a = codaAllarmi.allarmi;
         len = a.length;
         low = 0;
         mid = 0;
@@ -45,37 +45,34 @@
 
         while (low <= high) {
             mid = Math.floor((low + high) / 2);
-            //console.log(low, mid, high);
 
             if (x.toDate() >= a[mid].toDate()) {
-                //console.log(x.toDate() + " >= " + a[mid].toDate());
-                //console.log('return ' + mid);
-                high = mid;
+                high = mid - 1;
             } else {
-                //console.log(x.toDate() + " < " + a[mid].toDate());
                 low = mid + 1;
             }
         }
 
-        //console.log(low, mid, high);
-        //console.log('return ' + low);
         return low;
     };
     CodaAllarmi.prototype.add = function add(args) {
-        var self, index;
-        if (args instanceof Array) {
-            self = this;
+        var self, index, insert;
 
-            //@TODO: change for-each loop and call insertIndex 1 time only. Sort the args array first
+        self = this;
+        insert = function insert(alarm) {
+            index = codiceIndex(self, alarm);
+            self.allarmi.insert(index, alarm);
+        };
+
+        if (args instanceof Array) {
+            //@TODO: change for-each loop and call codiceIndex 1 time only. Sort the args array first
             Array.prototype.forEach.call(args, function forEach(alarm) {
                 if(alarm instanceof Allarme) {
-                    index = self.insertIndex(alarm);
-                    self.allarmi.insert(index, alarm);
+                    insert(alarm);
                 }
             });
         } else if (args instanceof Allarme) {
-            index = this.insertIndex(alarm);
-            this.allarmi.insert(index, allarme);
+            insert(alarm);
         }
     };
 }).call(window.AteArgo);
