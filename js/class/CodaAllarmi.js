@@ -37,19 +37,29 @@
         len = a.length;
         low = 0;
         mid = 0;
-        high = len - 1;
+        high = (len > 0) ? len - 1 : 0;
+
+        if(len === 0) {
+            return 0;
+        }
 
         while (low <= high) {
             mid = Math.floor((low + high) / 2);
+            //console.log(low, mid, high);
 
             if (x.toDate() >= a[mid].toDate()) {
-                return mid - 1;
+                //console.log(x.toDate() + " >= " + a[mid].toDate());
+                //console.log('return ' + mid);
+                high = mid;
             } else {
-                high = mid - 1;
+                //console.log(x.toDate() + " < " + a[mid].toDate());
+                low = mid + 1;
             }
         }
 
-        return mid;
+        //console.log(low, mid, high);
+        //console.log('return ' + low);
+        return low;
     };
     CodaAllarmi.prototype.add = function add(args) {
         var self, index;

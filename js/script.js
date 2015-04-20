@@ -15,7 +15,7 @@
         allarmi = [];
 
         start = performance.now();
-        for (i = 0; i < 2000; i += 1) {
+        for (i = 0; i < 100; i += 1) {
             allarmi[i] = AteArgo.randomAlarm();
         }
         end = performance.now();
@@ -29,13 +29,16 @@
         AteArgo.init();
         codaAllarmi = AteArgo.codaAllarmi;
 
-        allarmi = creaAllarmi();
-        codaAllarmi.add(allarmi);
+        //allarmi = creaAllarmi();
+        //codaAllarmi.add(allarmi);
+
+        window.allarmi = codaAllarmi.allarmi;
+        window.insertIndex = function() {
+            return codaAllarmi.insertIndex.apply(codaAllarmi, arguments);
+        };
+        window.randomAlarm = AteArgo.randomAlarm;
+
     };
 
-    $(d).ready(function docready() {
-        $(w).ready(function windowready() {
-            main();
-        });
-    });
+    $(main);
 }(jQuery, window, document));
