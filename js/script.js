@@ -30,6 +30,7 @@
         codaAllarmi = AteArgo.codaAllarmi;
 
         allarmi = creaAllarmi();
+        console.dir(allarmi);
         codaAllarmi.add(allarmi);
 
         //window.allarmi = codaAllarmi.allarmi;

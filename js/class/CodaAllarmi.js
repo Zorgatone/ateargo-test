@@ -33,8 +33,32 @@
         ;//@TODO
     };
 
-    supercodiceIndex = function supercodiceIndex(parentList, x) {
+    supercodiceIndex = function supercodiceIndex(a, x) {
         //@TODO: usare lista di date contenenti i supercodici di quella data (ultime 24h)
+        var low, high, len, mid;
+
+        if (false) {//@TODO
+            len = a.length;
+            low = 0;
+            mid = 0;
+            high = (len > 0) ? len - 1 : 0;
+
+            if(len === 0) {
+                return 0;
+            }
+
+            while (low <= high) {
+                mid = Math.floor((low + high) / 2);
+
+                if (x.toDate() >= a[mid].toDate()) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            }
+        }
+
+        return low;
     };
 
     //supercodiceIndex = function supercodiceIndex(parentList, x) {
@@ -124,6 +148,7 @@
         insert = function insert(alarm) {
             index = supercodiceIndex(self.parentList, alarm);
             if(index >= 0) {
+                console.log('insert');
                 self.parentList.insert(index, alarm);
             }
             //index = codiceIndex(self.allarmi, alarm);
@@ -138,7 +163,7 @@
                 }
             });
         } else if (args instanceof Allarme) {
-            insert(alarm);
+            insert(args);
         }
     };
 }).call(window.AteArgo);
