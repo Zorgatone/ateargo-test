@@ -36,6 +36,15 @@
         return new AteArgo();
     }()));
 
+    AteArgo.mergeDate = function mergeDate(strDate, strTime) {
+        var date = moment(strDate, "DD-MM-YYYY"), time = strTime.split(":");
+
+        date.add(parseInt(time[0], 10), 'hours');
+        date.add(parseInt(time[1], 10), 'minutes');
+
+        return date.toDate();
+    };
+
     AteArgo.randomAlarm = function randomAlarm() {
         var r;
         r = Utilities.randDate();
