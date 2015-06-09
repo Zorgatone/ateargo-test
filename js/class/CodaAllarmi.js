@@ -7,13 +7,30 @@
 (function closure() {
     "use strict";
 
-    var AteArgo, Allarme, CodaAllarmi, ParentList, codiceIndex, supercodiceIndex;
+    var AteArgo, Allarme, CodaAllarmi, ParentList, Row, codiceIndex, supercodiceIndex;
 
     AteArgo = this;
 
-    ParentList = (AteArgo.classes.ParentList = function ParentList() {
+    Row = (AteArgo.classes.Row = function Row(alarm) {
+        var key;
 
+        this.index = null;
+        this.visible = true;
+        this.cells = [];
+
+        if(alarm instanceof(AteArgo.classes.Allarme)) {
+            this.alarm = alarm;
+
+            for(key in alarm) {
+                if(alarm.hasOwnProperty(key)) {
+                    this.cells.push({name: key, value: alarm[key]});
+                }
+            }
+        } else {
+            this.alarm = null;
+        }
     });
+    ParentList = (AteArgo.classes.ParentList = function ParentList() {});
     ParentList.prototype.add = function add(alarm) {
         var parent, supercodice, data1, data2, ora1, ora2;
 
@@ -36,13 +53,15 @@
 
                     if(data1 instanceof(Date) && data2 instanceof(Date)) {
                         if(data2 >= data1) {
-                            this[supercodice] = alarm;
+                            return (this[supercodice] = alarm);
+                        } else {
+                            return parent;
                         }
                     } else {
                         console.error("Date error");
                     }
                 } else {
-                    this[supercodice] = alarm;
+                    return this[supercodice] = alarm;
                 }
             } else {
                 console.error("Invalid Supercodice");
@@ -104,6 +123,7 @@
 
         self = this;
         insert = function insert(alarm) {
+            var row = new Row(alarm);
             self.parentList.add(alarm);
             //index = supercodiceIndex(self.parentList, alarm);
             //if(index >= 0) {
